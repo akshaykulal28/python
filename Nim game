@@ -1,0 +1,54 @@
+import random
+
+# Initialize the number of stones in the game randomly between 15 and 30
+Stones = random.randint(15, 30)
+User = 0
+YourTurn = True
+
+# Introduction to the game
+print("This is a game where players take turns taking stones from a pile of stones. The player who takes the last stone loses.")
+print("The current stone count is:", Stones)
+
+# Main game loop
+while True:
+    # User's turn
+    while YourTurn == True and Stones > 0:
+        # Prompt the user to input the number of stones to remove
+        User = int(input("How many stones do you want to remove?"))
+        
+        # Check if only one stone is left
+        if Stones == 1:
+            break
+        # Ensure the user does not take more than half of the remaining stones
+        elif User > int(Stones / 2):
+            print("The stones to be picked shouldn't be more than half of the number of stones")
+        # Ensure the user takes at least one stone
+        elif User <= 0:
+            print("Number of stones to be picked should be at least one")
+        else:
+            # Update the stone count after the user's turn
+            Stones = Stones - User
+            print("The user took", User, "stones")
+            print("Stones remaining:", Stones)
+            YourTurn = False
+
+    # AI's turn
+    while YourTurn == False and Stones > 0:
+        # Check if only one stone is left
+        if Stones == 1:
+            break
+        # AI removes a random number of stones between 1 and half of the remaining stones
+        AI = random.randint(1, int(Stones / 2))
+        Stones = Stones - AI
+        print("AI removed", AI, "stones")
+        print("Stones remaining:", Stones)
+        YourTurn = True
+
+    # Check for end game condition
+    if Stones == 1:
+        if YourTurn == True:
+            print("You lost the game!")
+            exit(0)
+        elif YourTurn == False:
+            print("You won the game!")
+            exit(0)
