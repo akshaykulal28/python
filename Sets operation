@@ -1,0 +1,39 @@
+# Creating sets
+set1 = {1, 2, 3}
+set2 = {3, 4, 5}
+
+# Union
+print(f'Union: {set1 | set2}')  # Output: {1, 2, 3, 4, 5}
+
+# Intersection
+print(f'Intersection: {set1 & set2}')  # Output: {3}
+
+# Difference
+print(f'Difference (set1 - set2): {set1 - set2}')  # Output: {1, 2}
+print(f'Difference (set2 - set1): {set2 - set1}')  # Output: {4, 5}
+
+# Symmetric Difference
+print(f'Symmetric Difference: {set1 ^ set2}')  # Output: {1, 2, 4, 5}
+
+# Adding and updating
+set1.add(6)
+print(f'After adding 6: {set1}')  # Output: {1, 2, 3, 6}
+
+set1.update([7, 8])
+print(f'After updating with [7, 8]: {set1}')  # Output: {1, 2, 3, 6, 7, 8}
+
+# Removing elements
+set1.remove(8)
+print(f'After removing 8: {set1}')  # Output: {1, 2, 3, 6, 7}
+
+set1.discard(9)  # Does not raise an error even though 9 is not in set
+print(f'After discarding 9: {set1}')  # Output: {1, 2, 3, 6, 7}
+
+# Pop an element
+popped_element = set1.pop()
+print(f'Popped element: {popped_element}')
+print(f'After popping an element: {set1}')
+
+# Clearing the set
+set1.clear()
+print(f'After clearing: {set1}')  # Output: set()
