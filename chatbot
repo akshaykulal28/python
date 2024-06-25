@@ -1,0 +1,59 @@
+import nltk
+from nltk.chat.util import Chat, reflections
+
+# Sample data: In a real application, this data would come from a database
+accounts = {
+    'John': {'balance': 1500, 'account_number': '123456'},
+    'Alice': {'balance': 2400, 'account_number': '789012'},
+}
+
+# Define a function to check the balance
+def check_balance(username):
+    if username in accounts:
+        return f"Your balance is ${accounts[username]['balance']}."
+    else:
+        return "Account not found."
+
+# Define a function to handle fund transfer
+def transfer_funds(username, amount, recipient):
+    if username not in accounts:
+        return "Sender account not found."
+    if recipient not in accounts:
+        return "Recipient account not found."
+    if accounts[username]['balance'] < amount:
+        return "Insufficient funds."
+    
+    accounts[username]['balance'] -= amount
+    accounts[recipient]['balance'] += amount
+    return f"Transferred ${amount} to {recipient}. Your new balance is ${accounts[username]['balance']}."
+
+# Define the chatbot responses and patterns
+pairs = [
+    (r'hi|hello', ['Hello! How can I assist you today?']),
+    (r'what is your name?', ['I am your banking assistant.']),
+    (r'check my balance', ['Sure, please provide your name.']),
+    (r'my name is (.*)', ['Hello %1! How can I help you today?']),
+    (r'(.*) balance', ['Let me check that for you. Please provide your name.']),
+    (r'my name is (.*) and I want to check my balance', 
+        [lambda matches: check_balance(matches[0])]
+    ),
+    (r'transfer (.*) to (.*)', 
+        [lambda matches: transfer_funds('John', float(matches[0]), matches[1])]  # Assuming 'John' is the user for simplicity
+    ),
+    (r'thank you', ['You are welcome!']),
+    (r'bye', ['Goodbye! Have a nice day!']),
+    (r'(.*)', ['I am sorry, I did not understand that.'])
+]
+
+# Create a chat instance
+banking_chatbot = Chat(pairs, reflections)
+
+# Start the chat
+print("Welcome to the Bank Assistant. Type 'bye' to exit.")
+while True:
+    user_input = input("You: ")
+    if user_input.lower() == 'bye':
+        print("Bank Assistant: Goodbye! Have a nice day!")
+        break
+    response = banking_chatbot.respond(user_input)
+    print(f"Bank Assistant: {response}")
