@@ -1,0 +1,17 @@
+import tensorflow as tf
+import numpy as np
+
+X = np.array([1, 2, 3, 4, 5], dtype=float)
+Y = np.array([3, 5, 7, 9, 11], dtype=float)
+
+model = tf.keras.Sequential([
+    tf.keras.layers.Dense(units=1, input_shape=[1])
+])
+
+model.compile(optimizer='sgd', loss='mean_squared_error')
+
+history = model.fit(X, Y, epochs=500, verbose=0)
+
+test_value = 10.0
+prediction = model.predict([test_value])
+print(prediction[0][0])
